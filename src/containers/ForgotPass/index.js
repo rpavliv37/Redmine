@@ -10,10 +10,6 @@ const Container = styled.View`
 	align-items: center;
 `;
 
-const SubmitButton = styled.Button`
-	width: 120px;
-`;
-
 export default class ForgotPass extends React.Component {
 	static navigationOptions = {
     title: 'Forgot Password',
@@ -37,8 +33,15 @@ export default class ForgotPass extends React.Component {
 							}}
 						>
 						</View>
-						<SubmitButton
+						<Button
 							title="Send"
+							containerStyle={{
+								padding: 20
+							}}
+							buttonStyle={{
+								paddingLeft: 15,
+								paddingRight: 15
+							}}
 						/>
 					</Container>
         );
