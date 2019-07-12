@@ -1,14 +1,7 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
-import styled from 'styled-components';
-import { Input, CheckBox, Button, Text } from 'react-native-elements';
-
-const Container = styled.View`
-	flex: 1;
-	background-color: papayawhip;
-	justify-content: center;
-	align-items: center;
-`;
+import { Input, Button, Checkbox, Block, Text } from 'galio-framework';
+import Logo from '../../components/Logo';
+import '@expo/vector-icons';
 
 export default class ForgotPass extends React.Component {
 	static navigationOptions = {
@@ -21,28 +14,32 @@ export default class ForgotPass extends React.Component {
     render() {
 				const {navigate} = this.props.navigation;
         return (
-					<Container>
+					<Block
+						flex={1}
+						safe
+						middle
+						center
+						width={320}
+					>
+						<Logo />
 						<Input
-							placeholder='Email'
-							leftIcon={{ type: 'font-awesome', name: 'envelope', iconStyle: {marginRight: 10} }}
+							placeholder='E-mail'
+							type='email-address'
+							rounded
+							icon='mail'
+							family='Entypo'
 						/>
-						<View 
+						<Button
+							radius={27}
+							shadowColor
+							color='success'
 							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
+								marginTop: 12
 							}}
 						>
-						</View>
-						<Button
-							title="Send"
-							containerStyle={{
-								padding: 20
-							}}
-							buttonStyle={{
-								width: 100
-							}}
-						/>
-					</Container>
+							Send
+						</Button>
+					</Block>
         );
     }
 }

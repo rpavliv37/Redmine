@@ -4,7 +4,7 @@ import ForgotPass from './src/containers/ForgotPass';
 import Main from './src/containers/Main';
 
 const MainNavigator = createStackNavigator({
-  Home: {screen: Main},
+  Home: {screen: SignIn},
   SignIn: { screen: SignIn},
   ForgotPass: {screen: ForgotPass},
 });

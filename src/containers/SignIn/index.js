@@ -1,17 +1,7 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
-import styled from 'styled-components';
-import { Input, CheckBox, Button, Text, Header } from 'react-native-elements';
-
-const Container = styled.View`
-	flex: 1;
-	background-color: papayawhip;
-	justify-content: center;
-`;
-
-const Link = styled.Text`
-	padding-right: 35
-`;
+import { Input, Button, Checkbox, Block, Text } from 'galio-framework';
+import Logo from '../../components/Logo';
+import '@expo/vector-icons';
 
 export default class SignIn extends React.Component {
 	static navigationOptions = {
@@ -19,52 +9,63 @@ export default class SignIn extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { text: 'Useless Placeholder' };
+    this.state = {};
   }
     render() {
 				const {navigate} = this.props.navigation;
         return (
-					<Container>
+					<Block
+						flex={1}
+						safe
+						middle
+						center
+						width={320}
+					>
+						<Logo />
 						<Input
 							placeholder='Login'
-							leftIcon={{ type: 'font-awesome', name: 'user', iconStyle: {marginRight: 10}}}
-							containerStyle={{
-								marginBottom: 15
-							}}
+							rounded
+							icon='user'
+							family='Entypo'
 						/>
 						<Input
 							placeholder='Password'
-							leftIcon={{ type: 'font-awesome', name: 'lock', iconStyle: {marginRight: 10} }}
+							rounded
+							icon='lock'
+							family='Entypo'
+							password
 						/>
-						<View 
+						<Block
+							space='between'
+							row
+							middle
 							style={{
-								// flex: 1,
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								alignItems: 'center'
+								marginTop: 8,
+								width: 320
 							}}
 						>
-							<CheckBox
-								left
-								title='Remember me'
-								checked={this.state.checked}
-								containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+							<Checkbox
+								label='Remember me'
+								color='success'
 							/>
-							<Link
+							<Text
 								h6
 								onPress={() => navigate('ForgotPass')}
 							>
 								Lost password?
-							</Link>
-						</View>
+							</Text>
+						</Block>
 						<Button
-							title="Login"
-							buttonStyle={{
-								width: 100,
-								alignSelf: 'center'
+							radius={27}
+							shadowColor
+							color='success'
+							style={{
+								marginTop: 12
 							}}
-						/>
-					</Container>
+						>
+							Login
+						</Button>
+					</Block>
         );
     }
 }
