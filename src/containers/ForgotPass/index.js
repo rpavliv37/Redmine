@@ -39,8 +39,7 @@ export default class ForgotPass extends React.Component {
 								padding: 20
 							}}
 							buttonStyle={{
-								paddingLeft: 15,
-								paddingRight: 15
+								width: 100
 							}}
 						/>
 					</Container>

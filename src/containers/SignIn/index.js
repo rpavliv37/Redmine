@@ -7,10 +7,10 @@ const Container = styled.View`
 	flex: 1;
 	background-color: papayawhip;
 	justify-content: center;
-	align-items: center;
 `;
 
 const Link = styled.Text`
+	padding-right: 35
 `;
 
 export default class SignIn extends React.Component {
@@ -25,9 +25,6 @@ export default class SignIn extends React.Component {
 				const {navigate} = this.props.navigation;
         return (
 					<Container>
-						{/* <Header
-							centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-						/> */}
 						<Input
 							placeholder='Login'
 							leftIcon={{ type: 'font-awesome', name: 'user', iconStyle: {marginRight: 10}}}
@@ -41,7 +38,7 @@ export default class SignIn extends React.Component {
 						/>
 						<View 
 							style={{
-								display: 'flex',
+								// flex: 1,
 								flexDirection: 'row',
 								justifyContent: 'space-between',
 								alignItems: 'center'
@@ -63,8 +60,8 @@ export default class SignIn extends React.Component {
 						<Button
 							title="Login"
 							buttonStyle={{
-								paddingLeft: 15,
-								paddingRight: 15
+								width: 100,
+								alignSelf: 'center'
 							}}
 						/>
 					</Container>

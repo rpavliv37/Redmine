@@ -1,9 +1,11 @@
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import SignIn from './src/containers/SignIn';
 import ForgotPass from './src/containers/ForgotPass';
+import Main from './src/containers/Main';
 
 const MainNavigator = createStackNavigator({
-  Home: {screen: SignIn},
+  Home: {screen: Main},
+  SignIn: { screen: SignIn},
   ForgotPass: {screen: ForgotPass},
 });
 
