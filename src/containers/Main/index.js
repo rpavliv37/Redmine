@@ -1,15 +1,8 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, ScrollView, Picker, Text, Modal, TouchableHighlight } from 'react-native';
-import styled from 'styled-components';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-const Container = styled.View`
-	flex: 1;
-	background-color: papayawhip;
-	justify-content: center;
-`;
+import {Picker, TouchableOpacity, ScrollView } from 'react-native';
+import Expand from 'react-native-simple-expand';
+import { Input, Button, Card, Block, Text, Icon, Navbar } from 'galio-framework';
+import '@expo/vector-icons';
 
 export default class Main extends React.Component {
 	static navigationOptions = {
@@ -17,15 +10,7 @@ export default class Main extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {
-      tableHead: ['#', 'Tracker', 'Status', 'Priority', 'Subject', 'Assignee', 'Updated'],
-      tableData: [
-        ['12345', '2', '3', '4', '12345', '2', '3'],
-        ['12345', 'b', 'c', 'd', '12345', '2', '3'],
-        ['12345', '2', '3', '456\n789', '12345', '2', '3'],
-        ['12345', 'b', 'c', 'd', '12345', '2', '3']
-			],
-			modalVisible: false	
+		this.state = {
     }
 	}
 	
@@ -36,98 +21,540 @@ export default class Main extends React.Component {
 		const state = this.state;
 		const {navigate} = this.props.navigation;
     return (
-			<React.Fragment>
-				<View
+			<ScrollView>
+				<Block
 					style={{
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						alignItems: 'center'
+						backgroundColor: '#fff',
+						flex: 1,
+						paddingLeft: 20,
+						paddingRight: 20
 					}}
 				>
-					<Picker
-						selectedValue={this.state.language}
-						style={{height: 50, width: 140}}
-						onValueChange={(itemValue, itemIndex) =>
-							this.setState({language: itemValue})}
+					<Block
+						right
 					>
-						<Picker.Item label="Status" value="java" />
-						<Picker.Item label="JavaScript" value="js" />
-					</Picker>
-					<Picker
-						selectedValue={this.state.language}
-						style={{height: 50, width: 140}}
-						onValueChange={(itemValue, itemIndex) =>
-							this.setState({language: itemValue})
-						}>
-						<Picker.Item label="Projects" value="java" />
-						<Picker.Item label="JavaScript" value="js" />
-					</Picker>
-				</View>
-				<View
-					style={{
-						flexDirection: 'row',
-						alignItems: 'center',
-						justifyContent: 'flex-end',
-						paddingRight: 10
-					}}
-				>
-								<View style={{marginTop: 22}}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{marginTop: 22}}>
-            <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
-
-        <TouchableHighlight
-          onPress={() => {
-            this.setModalVisible(true);
-          }}>
-          <Button
-							icon={
-								<Icon
-									name="plus"
-									size={15}
-									color="white"
-								/>
-							}
-							title="  New Issue"
-							onPress={() => {
-								this.setModalVisible(true);
+						<Text
+							h4
+						>
+							Today spent time: 8h
+						</Text>
+					</Block>
+					<Block
+						style={{
+							paddingTop: 10
+						}}
+					>
+					<TouchableOpacity
+						onPress={() => this.setState({ open: !this.state.open })}
+					>
+						<Block
+							row
+							style={{
+								justifyContent: 'flex-start',
+								alignItems: 'center'
 							}}
-					/>
-        </TouchableHighlight>
-      	</View>
-				</View>
-				<ScrollView horizontal={true}>
-					<View style={styles.container}>
-						<Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-							<Row data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-							<Rows data={state.tableData} textStyle={styles.text}/>
-						</Table>
-					</View>
-				</ScrollView>
-			</React.Fragment>
+						>
+							<Icon name={this.state.open ? "caretdown" : "caretright"} family="AntDesign" color='blue' size={14} />
+							<Text
+								h5
+								bold
+							>
+								Filters
+							</Text>
+						</Block>
+					</TouchableOpacity>
+						<Expand value={this.state.open}>
+							<Picker
+								selectedValue={this.state.language}
+								style={{height: 50, width: 'auto'}}
+								onValueChange={(itemValue, itemIndex) =>
+									this.setState({language: itemValue})}
+							>
+								<Picker.Item label="Status" value="java" />
+								<Picker.Item label="Project" value="js" />
+							</Picker>
+							<Picker
+							selectedValue={this.state.language}
+							style={{height: 50, width: 'auto'}}
+							onValueChange={(itemValue, itemIndex) =>
+								this.setState({language: itemValue})}
+						>
+							<Picker.Item label="Project" value="java" />
+							<Picker.Item label="JavaScript" value="js" />
+						</Picker>
+						</Expand>
+					</Block>
+					<Block
+						right
+						style={{
+							marginBottom: 10,
+							marginTop: 10
+						}}
+					>
+						<Button
+							radius={27}
+							shadowColor
+							color='info'
+							icon='pluscircle'
+							iconFamily='AntDesign'
+							iconColor='white'
+							size='small'
+						>
+							Add new Issue
+						</Button>
+					</Block>
+					<Block
+						borderWidth={1}
+						style={{
+							backgroundColor: '#6c757c',
+							borderColor: 'rgba(0, 0, 0, 0.125)',
+							borderRadius: 20,
+							marginBottom: 15
+						}}
+					>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20,
+								backgroundColor: '#677178',
+								borderBottomWidth: 1,
+								borderTopLeftRadius: 20,
+								borderTopRightRadius: 20,
+								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+							}}
+						>
+							<Text
+								h5
+								style={{
+									paddingBottom: 5,
+									color: 'white'
+								}}
+							>
+								Bug #123456
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Status: New
+							</Text>
+							<Text
+								color='white'
+							>
+								Priority: Low
+							</Text>
+						</Block>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Updated: 12/12/2019
+							</Text>
+							<Text
+								color='blue'
+							>
+								More details >>
+							</Text>
+						</Block>
+					</Block>
+					<Block
+						borderWidth={1}
+						style={{
+							backgroundColor: '#6c757c',
+							borderColor: 'rgba(0, 0, 0, 0.125)',
+							borderRadius: 20,
+							marginBottom: 15
+						}}
+					>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20,
+								backgroundColor: '#677178',
+								borderBottomWidth: 1,
+								borderTopLeftRadius: 20,
+								borderTopRightRadius: 20,
+								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+							}}
+						>
+							<Text
+								h5
+								style={{
+									paddingBottom: 5,
+									color: 'white'
+								}}
+							>
+								Bug #123456
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Status: New
+							</Text>
+							<Text
+								color='white'
+							>
+								Priority: Low
+							</Text>
+						</Block>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Updated: 12/12/2019
+							</Text>
+							<Text
+								color='blue'
+							>
+								More details >>
+							</Text>
+						</Block>
+					</Block>
+					<Block
+						borderWidth={1}
+						style={{
+							backgroundColor: '#6c757c',
+							borderColor: 'rgba(0, 0, 0, 0.125)',
+							borderRadius: 20,
+							marginBottom: 15
+						}}
+					>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20,
+								backgroundColor: '#677178',
+								borderBottomWidth: 1,
+								borderTopLeftRadius: 20,
+								borderTopRightRadius: 20,
+								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+							}}
+						>
+							<Text
+								h5
+								style={{
+									paddingBottom: 5,
+									color: 'white'
+								}}
+							>
+								Bug #123456
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Status: New
+							</Text>
+							<Text
+								color='white'
+							>
+								Priority: Low
+							</Text>
+						</Block>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Updated: 12/12/2019
+							</Text>
+							<Text
+								color='blue'
+							>
+								More details >>
+							</Text>
+						</Block>
+					</Block>
+					<Block
+						borderWidth={1}
+						style={{
+							backgroundColor: '#6c757c',
+							borderColor: 'rgba(0, 0, 0, 0.125)',
+							borderRadius: 20,
+							marginBottom: 15
+						}}
+					>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20,
+								backgroundColor: '#677178',
+								borderBottomWidth: 1,
+								borderTopLeftRadius: 20,
+								borderTopRightRadius: 20,
+								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+							}}
+						>
+							<Text
+								h5
+								style={{
+									paddingBottom: 5,
+									color: 'white'
+								}}
+							>
+								Bug #123456
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Status: New
+							</Text>
+							<Text
+								color='white'
+							>
+								Priority: Low
+							</Text>
+						</Block>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Updated: 12/12/2019
+							</Text>
+							<Text
+								color='blue'
+							>
+								More details >>
+							</Text>
+						</Block>
+					</Block>
+					<Block
+						borderWidth={1}
+						style={{
+							backgroundColor: '#6c757c',
+							borderColor: 'rgba(0, 0, 0, 0.125)',
+							borderRadius: 20,
+							marginBottom: 15
+						}}
+					>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20,
+								backgroundColor: '#677178',
+								borderBottomWidth: 1,
+								borderTopLeftRadius: 20,
+								borderTopRightRadius: 20,
+								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+							}}
+						>
+							<Text
+								h5
+								style={{
+									paddingBottom: 5,
+									color: 'white'
+								}}
+							>
+								Bug #123456
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Status: New
+							</Text>
+							<Text
+								color='white'
+							>
+								Priority: Low
+							</Text>
+						</Block>
+						<Block
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
+							</Text>
+						</Block>
+						<Block
+							row
+							space='between'
+							style={{
+								paddingTop: 12,
+								paddingBottom: 12,
+								paddingLeft: 20,
+								paddingRight: 20
+							}}
+						>
+							<Text
+								color='white'
+							>
+								Updated: 12/12/2019
+							</Text>
+							<Text
+								color='blue'
+							>
+								More details >>
+							</Text>
+						</Block>
+					</Block>
+				</Block>
+			</ScrollView>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  head: { height: 40, backgroundColor: '#f1f8ff' },
-  text: { margin: 6, width: 70 }
-});
