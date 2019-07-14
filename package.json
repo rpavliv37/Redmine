@@ -9,6 +9,7 @@
     "react-devtools": "react-devtools"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.3",
     "expo": "^33.0.0",
     "galio-framework": "^0.5.3",
     "native-base": "^2.12.1",

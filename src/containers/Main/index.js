@@ -21,7 +21,27 @@ export default class Main extends React.Component {
 		const state = this.state;
 		const {navigate} = this.props.navigation;
     return (
-			<ScrollView>
+			<React.Fragment>
+					<Block
+						right
+						style={{
+							paddingTop: 12,
+							paddingBottom: 12,
+							paddingLeft: 20,
+							paddingRight: 20,
+							backgroundColor: '#677178',
+							borderBottomWidth: 1,
+							borderBottomColor: 'rgba(0, 0, 0, 0.125)'
+						}}
+					>
+						<Text
+							h4
+							color='white'
+						>
+							Today spent time: 8h
+						</Text>
+					</Block>
+					<ScrollView>
 				<Block
 					style={{
 						backgroundColor: '#fff',
@@ -30,15 +50,6 @@ export default class Main extends React.Component {
 						paddingRight: 20
 					}}
 				>
-					<Block
-						right
-					>
-						<Text
-							h4
-						>
-							Today spent time: 8h
-						</Text>
-					</Block>
 					<Block
 						style={{
 							paddingTop: 10
@@ -555,6 +566,7 @@ export default class Main extends React.Component {
 					</Block>
 				</Block>
 			</ScrollView>
+			</React.Fragment>
     )
   }
 }

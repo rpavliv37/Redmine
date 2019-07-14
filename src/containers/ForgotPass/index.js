@@ -14,32 +14,40 @@ export default class ForgotPass extends React.Component {
     render() {
 				const {navigate} = this.props.navigation;
         return (
-					<Block
-						flex={1}
-						safe
-						middle
-						center
-						width={320}
-					>
-						<Logo />
-						<Input
-							placeholder='E-mail'
-							type='email-address'
-							rounded
-							icon='mail'
-							family='Entypo'
-						/>
-						<Button
-							radius={27}
-							shadowColor
-							color='success'
+					<React.Fragment>
+						<Block
+							flex={1}
+							safe
+							middle
+						>
+							<Logo />
+						</Block>
+						<Block
+							flex={1}
 							style={{
-								marginTop: 12
+								paddingLeft: 15,
+								paddingRight: 15
 							}}
 						>
-							Send
-						</Button>
-					</Block>
+							<Input
+								placeholder='E-mail'
+								type='email-address'
+								rounded
+								icon='mail'
+								family='Entypo'
+							/>
+							<Button
+								radius={27}
+								shadowColor
+								color='success'
+								style={{
+									marginTop: 12
+								}}
+							>
+								Send
+							</Button>
+						</Block>
+					</React.Fragment>
         );
     }
 }
