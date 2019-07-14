@@ -110,6 +110,7 @@ export default class Main extends React.Component {
 							iconFamily='AntDesign'
 							iconColor='white'
 							size='small'
+							onPress={() => navigate('CreateNewTask')}
 						>
 							Add new Issue
 						</Button>

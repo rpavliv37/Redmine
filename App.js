@@ -6,7 +6,7 @@ import TaskDetails from './src/containers/TaskDetails';
 import CreateNewTask from './src/containers/CreateNewTask';
 
 const MainNavigator = createStackNavigator({
-  Home: {screen: SignIn},
+  Home: {screen: TaskDetails},
   SignIn: { screen: SignIn},
   ForgotPass: {screen: ForgotPass},
   TaskDetails: {screen: TaskDetails},
