@@ -1,0 +1,8 @@
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_IN_RECEIVED = 'SIGN_IN_RECEIVED';
+export const SIGN_IN_CANCELED = 'SIGN_IN_CANCELED';
+export const USER_LOGOUT = 'USER_LOGOUT';
+export const SIGN_IN_CHECK_JWT = 'SIGN_IN_CHECK_JWT';
+export const SIGN_IN_VALID_JWT = 'SIGN_IN_VALID_JWT';
+export const SIGN_IN_INVALID_JWT = 'SIGN_IN_INVALID_JWT';
+export const SIGN_IN_UPDATE_USER = 'SIGN_IN_UPDATE_USER';
