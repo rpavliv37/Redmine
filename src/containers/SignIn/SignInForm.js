@@ -2,98 +2,88 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Button, Checkbox, Block, Text } from 'galio-framework';
 import { Field, reduxForm } from 'redux-form';
-import Logo from '../../components/Logo';
 import { renderField } from '../../components/FormField'
+import { renderCheckbox } from '../../components/Checkbox';
 import '@expo/vector-icons';
 
-export class SignIn extends React.Component {
-	static navigationOptions = {
-		title: 'Welcome',
-	};
+export class SignInForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
 	render() {
-    const { navigate } = this.props.navigation;
-    const { handleSubmit } = this.props;
+    const { onSubmit, goTo } = this.props;
 		return (
-			<React.Fragment>
+			<Block
+				flex={2}
+				style={{
+					paddingLeft: 20,
+					paddingRight: 20
+				}}
+			>
+				<Field
+					props={{
+						placeholder: 'Login',
+						rounded: true,
+						icon: 'user',
+						family: 'Entypo'
+					}}
+					component={renderField}
+					name="user"
+				/>
+				<Field
+					props={{
+						placeholder: 'Password',
+						rounded: true,
+						icon: 'lock',
+						family: 'Entypo',
+						password: true
+					}}
+					name="password"
+					component={renderField}
+				/>
 				<Block
-					flex={1}
-          safe
+					space='between'
+					row
 					middle
-				>
-					<Logo />
-				</Block>
-				<Block
-					flex={2}
 					style={{
-						paddingLeft: 20,
-						paddingRight: 20
+						marginTop: 8
 					}}
 				>
-          <Field
-            props={{
-              placeholder: 'Login',
-              rounded: true,
-              icon: 'user',
-              family: 'Entypo'
-            }}
-            component={renderField}
-            name="user"
-          />
-          <Field
-            props={{
-              placeholder: 'Password',
-              rounded: true,
-              icon: 'lock',
-              family: 'Entypo',
-              password: true
-            }}
-            name="password"
-            component={renderField}
-          />
-					<Block
-						space='between'
-						row
-						middle
+					<Field
+						// props={{
+						// 	label: 'Remember me',
+						// 	color: 'success'
+						// }}
+						name="rememberMe"
+						component={renderCheckbox}
+					/>
+					<Text
+						h6
+						onPress={() => goTo('ForgotPass')}
+					>
+						Lost password?
+						</Text>
+				</Block>
+				<TouchableOpacity
+					onPress={onSubmit}
+				>
+					<Button
+						radius={27}
+						shadowColor
+						color='success'
 						style={{
-							marginTop: 8,
-							width: 320
+							marginTop: 12
 						}}
 					>
-						<Checkbox
-							label='Remember me'
-							color='success'
-						/>
-						<Text
-							h6
-							onPress={() => navigate('ForgotPass')}
-						>
-							Lost password?
-							</Text>
-					</Block>
-          <TouchableOpacity
-            onPress={handleSubmit}
-          >
-            <Button
-              radius={27}
-              shadowColor
-              color='success'
-              style={{
-                marginTop: 12
-              }}
-            >
-              Login
-            </Button>
-          </TouchableOpacity>
-				</Block>
-			</React.Fragment>
+						Login
+					</Button>
+				</TouchableOpacity>
+			</Block>
 		);
 	}
 }
 
 export default reduxForm({
   form: 'signInForm'
-})(SignIn);
+})(SignInForm);

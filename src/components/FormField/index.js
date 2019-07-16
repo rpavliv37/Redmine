@@ -2,12 +2,16 @@ import React from 'react';
 import { TextInput, View } from 'react-native';
 import { Input } from 'galio-framework';
 
-const renderField = (props) => (
-	<View>
-		<Input
-			{...props}
-		/>
-	</View>
-);
+const renderField = (props) => {
+	const { input: { onChange } } = props;
+	return (
+		<View>
+			<Input
+				{...props}
+				onChangeText={onChange}
+			/>
+		</View>
+	);
+};
 
 export { renderField };

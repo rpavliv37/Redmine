@@ -7,13 +7,12 @@ export const signIn = (data) => ({
   }
 });
 
-export const receiveSignIn = (user, jwt, remember, needGoBack) => ({
+export const receiveSignIn = (user, jwt, remember) => ({
   type: actionTypes.SIGN_IN_RECEIVED,
   payload: {
     user,
     jwt,
-    remember,
-    needGoBack
+    remember
   }
 });
 

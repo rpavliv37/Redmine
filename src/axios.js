@@ -1,0 +1,8 @@
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+  baseURL: 'https://some-domain.com/api/',
+  headers: {'Cookie': '_redmine_session=_redmine_session=QktCV2h1V3FjejQ2Q09LcHdIWHlIRy9mQ2YrcHJPSVR1Q3NneThuVTh6TjVRSC9QMHZCWEI5QmJvSUVUeFVTRUlqL3FuQnduT2Nwa1lSME53MDhpaFZRNTVsOWhhakdMRC9ENnR5WHdQMFlWSmF6YytNeTBUbFRjRVFPMGlpQXB2Y1MyRnphaGY1UVdQQ0tiVUxTc25uajI3RkIrVld5SHhQZ3QwREd1Z091djJETDlZZ0Y3Zy84WEZ6Z1R1VE5TNm1FOFEvdDg2aUNHVlFRUEJXc1dtNlduZkFoa2dZZ1dqbHRQOGh0M0lXOXBpUWt2elhwTTJ5WCtNeHZETE1uR3RlU2o4WVQ1V3owWmcya3l6KzlyTWx2SXVKOUN1Q0hqUlFsT1llRXd3TUhKTElBNGc1M001RElQZjQvc2EzczMtLUVEU205clRiSnZGaGpNZHpnQUIveEE9PQ%3D%3D--a3ae03422faddc604a78e37b87209a78cb2b62ba'}
+});
+
+export default axiosInstance;

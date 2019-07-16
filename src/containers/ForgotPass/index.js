@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, Button, Checkbox, Block, Text } from 'galio-framework';
+import { Block } from 'galio-framework';
 import Logo from '../../components/Logo';
+import ForgotPassForm from './ForgotPassForm';
 import '@expo/vector-icons';
 
 export default class ForgotPass extends React.Component {
@@ -21,31 +22,9 @@ export default class ForgotPass extends React.Component {
 							middle
 						>
 							<Logo />
-						</Block>
-						<Block
-							flex={1}
-							style={{
-								paddingLeft: 15,
-								paddingRight: 15
-							}}
-						>
-							<Input
-								placeholder='E-mail'
-								type='email-address'
-								rounded
-								icon='mail'
-								family='Entypo'
+							<ForgotPassForm
+								handleSubmit={()=> {}} // set onSubmit actions
 							/>
-							<Button
-								radius={27}
-								shadowColor
-								color='success'
-								style={{
-									marginTop: 12
-								}}
-							>
-								Send
-							</Button>
 						</Block>
 					</React.Fragment>
         );
