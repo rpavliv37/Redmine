@@ -12,7 +12,7 @@ export class SignInForm extends React.Component {
 		this.state = {};
 	}
 	render() {
-    const { onSubmit, goTo } = this.props;
+    const { handleSubmit, goTo } = this.props;
 		return (
 			<Block
 				flex={2}
@@ -29,7 +29,7 @@ export class SignInForm extends React.Component {
 						family: 'Entypo'
 					}}
 					component={renderField}
-					name="user"
+					name="username"
 				/>
 				<Field
 					props={{
@@ -51,10 +51,6 @@ export class SignInForm extends React.Component {
 					}}
 				>
 					<Field
-						// props={{
-						// 	label: 'Remember me',
-						// 	color: 'success'
-						// }}
 						name="rememberMe"
 						component={renderCheckbox}
 					/>
@@ -63,21 +59,14 @@ export class SignInForm extends React.Component {
 						onPress={() => goTo('ForgotPass')}
 					>
 						Lost password?
-						</Text>
+					</Text>
 				</Block>
 				<TouchableOpacity
-					onPress={onSubmit}
+					onPress={handleSubmit}
 				>
-					<Button
-						radius={27}
-						shadowColor
-						color='success'
-						style={{
-							marginTop: 12
-						}}
-					>
+					<Text>
 						Login
-					</Button>
+					</Text>
 				</TouchableOpacity>
 			</Block>
 		);

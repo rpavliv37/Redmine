@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationGenerator: NotificationList Shallow render of NotificationList 1`] = `
+<div
+  class="toast-bottom-right"
+  id="toast-container"
+>
+  <div
+    aria-live="polite"
+    class="toast toast-success"
+    role="status"
+  >
+    <div
+      class="toast-message"
+    >
+      Test message. Success.
+    </div>
+  </div>
+  <div
+    aria-live="polite"
+    class="toast toast-error"
+    role="status"
+  >
+    <div
+      class="toast-message"
+    >
+      Test message. Error.
+    </div>
+  </div>
+</div>
+`;

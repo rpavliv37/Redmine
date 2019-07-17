@@ -1,16 +1,27 @@
 import React from 'react';
-import { View, Checkbox } from 'react-native';
+import { View, CheckBox, Text } from 'react-native';
 // import { Checkbox } from 'galio-framework';
 
-const renderCheckbox = (props) => {
-	const { input: { onChange, value } } = props;
+const renderCheckbox = ({ input }) => {
+	const { onChange, value } = input;
 	return (
-		<View>
-			<Checkbox 
-				// {...props}
-				onValueChange={(value) => onChange(value)}
-				value={value}
-    	/>
+		<View
+			style={{
+				flexDirection: 'row',
+				alignItems: 'center'
+			}}
+		>
+			<CheckBox
+				onValueChange={(value) => {
+					onChange(value);
+				}}
+				value={!!value}
+			/>
+			<Text
+				h6
+			>
+				Remember me
+			</Text>
 		</View>
 	);
 };

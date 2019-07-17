@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { combineEpics } from 'redux-observable';
-import moment from 'moment';
 import { serialize, handleError } from './../../api_helper';
 import * as SignInTypes from './constants';
 import {
@@ -9,17 +8,18 @@ import {
   signInCheckJWT,
   logOut
 } from './actions';
+import { addNotification } from '../NotificationGenerator/actions';
 import axiosInstance from '../../axios';
 
 function signInEpic(action$) {
   return action$.ofType(SignInTypes.SIGN_IN)
     .map((action) => action.payload)
     .switchMap(({
-      remember, username, password
+      rememberMe, username, password
     }) => (
-      Observable.fromPromise(axiosInstance.post(`https://redmine.indeema.com/my/account.json`, {
+      Observable.fromPromise(axiosInstance.post(`/login`, {
         params: {
-          remember,
+          rememberMe,
           username,
           password
         }

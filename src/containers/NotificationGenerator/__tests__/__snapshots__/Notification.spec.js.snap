@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationGenerator: Notification Shallow render of Notification (success) 1`] = `
+<StatusMessage
+  onClick={[Function]}
+  text="Test message for notification."
+  type="success"
+/>
+`;
