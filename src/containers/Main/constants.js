@@ -1,0 +1,2 @@
+export const GET_LIST_OF_TASKS = 'GET_LIST_OF_TASKS';
+export const GET_TODAY_SPENT_TIME = 'GET_TODAY_SPENT_TIME';

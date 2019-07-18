@@ -15,10 +15,11 @@ class SignIn extends React.Component {
 		this.state = {};
 	}
 	onSubmit = (values) => {
-    const { signIn: signInProps } = this.props;
+		const { signIn: signInProps, navigation } = this.props;
     signInProps({
       ...values
-    });
+		});
+		navigation.navigate("Main");
   }
 	render() {
 		const { navigate } = this.props.navigation;

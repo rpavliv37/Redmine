@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, CheckBox, Text } from 'react-native';
-// import { Checkbox } from 'galio-framework';
+import { View, Text } from 'react-native';
+import { Checkbox } from 'galio-framework';
 
 const renderCheckbox = ({ input }) => {
 	const { onChange, value } = input;
@@ -11,17 +11,14 @@ const renderCheckbox = ({ input }) => {
 				alignItems: 'center'
 			}}
 		>
-			<CheckBox
-				onValueChange={(value) => {
+			<Checkbox
+				onChange={(value) => {
 					onChange(value);
 				}}
 				value={!!value}
+				label='Remember me'
+				color='#45df31'
 			/>
-			<Text
-				h6
-			>
-				Remember me
-			</Text>
 		</View>
 	);
 };

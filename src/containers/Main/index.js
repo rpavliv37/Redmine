@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import shortid from 'shortid';
 import {Picker, TouchableOpacity, ScrollView } from 'react-native';
 import Expand from 'react-native-simple-expand';
+import getStatusesFromList from './utils/getStatusesfromList';
 import { Input, Button, Card, Block, Text, Icon, Navbar } from 'galio-framework';
 import '@expo/vector-icons';
 
-export default class Main extends React.Component {
+class Main extends React.Component {
 	static navigationOptions = {
     title: 'Main',
   };
@@ -18,8 +22,8 @@ export default class Main extends React.Component {
     this.setState({modalVisible: visible});
   }
 	render() {
-		const state = this.state;
-		const {navigate} = this.props.navigation;
+		const { tasks, navigation } = this.props;
+		const statuses = tasks && getStatusesFromList(tasks);
     return (
 			<React.Fragment>
 					<Block
@@ -56,7 +60,10 @@ export default class Main extends React.Component {
 						}}
 					>
 					<TouchableOpacity
-						onPress={() => this.setState({ open: !this.state.open })}
+						onPress={() => {
+							this.setState({ open: !this.state.open })
+							getStatusesFromList(tasks);
+						}}
 					>
 						<Block
 							row
@@ -81,8 +88,10 @@ export default class Main extends React.Component {
 								onValueChange={(itemValue, itemIndex) =>
 									this.setState({language: itemValue})}
 							>
-								<Picker.Item label="Status" value="java" />
-								<Picker.Item label="Project" value="js" />
+								<Picker.Item label="All" value="all" />
+								{/* {statuses && statuses.map((status) => {
+									<Picker.Item label={status} value={status} />
+								})} */}
 							</Picker>
 							<Picker
 							selectedValue={this.state.language}
@@ -110,11 +119,12 @@ export default class Main extends React.Component {
 							iconFamily='AntDesign'
 							iconColor='white'
 							size='small'
-							onPress={() => navigate('CreateNewTask')}
+							onPress={() => navigation.navigate('CreateNewTask')}
 						>
 							Add new Issue
 						</Button>
 					</Block>
+					{tasks && tasks.map((task) => (
 					<Block
 						borderWidth={1}
 						style={{
@@ -123,451 +133,104 @@ export default class Main extends React.Component {
 							borderRadius: 20,
 							marginBottom: 15
 						}}
+						key={shortid.generate()}
 					>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20,
-								backgroundColor: '#677178',
-								borderBottomWidth: 1,
-								borderTopLeftRadius: 20,
-								borderTopRightRadius: 20,
-								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
-							}}
-						>
-							<Text
-								h5
+							<Block
 								style={{
-									paddingBottom: 5,
-									color: 'white'
+									paddingTop: 12,
+									paddingBottom: 12,
+									paddingLeft: 20,
+									paddingRight: 20,
+									backgroundColor: '#677178',
+									borderBottomWidth: 1,
+									borderTopLeftRadius: 20,
+									borderTopRightRadius: 20,
+									borderBottomColor: 'rgba(0, 0, 0, 0.125)'
 								}}
 							>
-								Bug #123456
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Status: New
-							</Text>
-							<Text
-								color='white'
-							>
-								Priority: Low
-							</Text>
-						</Block>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Updated: 12/12/2019
-							</Text>
-							<Text
-								color='blue'
-							>
-								More details >>
-							</Text>
-						</Block>
-					</Block>
-					<Block
-						borderWidth={1}
-						style={{
-							backgroundColor: '#6c757c',
-							borderColor: 'rgba(0, 0, 0, 0.125)',
-							borderRadius: 20,
-							marginBottom: 15
-						}}
-					>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20,
-								backgroundColor: '#677178',
-								borderBottomWidth: 1,
-								borderTopLeftRadius: 20,
-								borderTopRightRadius: 20,
-								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
-							}}
-						>
-							<Text
-								h5
+								<Text
+									h5
+									style={{
+										paddingBottom: 5,
+										color: 'white'
+									}}
+								>
+									{`${task.tracker.name} #${task.id}`} 
+								</Text>
+							</Block>
+							<Block
+								row
+								space='between'
 								style={{
-									paddingBottom: 5,
-									color: 'white'
+									paddingTop: 12,
+									paddingBottom: 12,
+									paddingLeft: 20,
+									paddingRight: 20
 								}}
 							>
-								Bug #123456
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Status: New
-							</Text>
-							<Text
-								color='white'
-							>
-								Priority: Low
-							</Text>
-						</Block>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Updated: 12/12/2019
-							</Text>
-							<Text
-								color='blue'
-							>
-								More details >>
-							</Text>
-						</Block>
-					</Block>
-					<Block
-						borderWidth={1}
-						style={{
-							backgroundColor: '#6c757c',
-							borderColor: 'rgba(0, 0, 0, 0.125)',
-							borderRadius: 20,
-							marginBottom: 15
-						}}
-					>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20,
-								backgroundColor: '#677178',
-								borderBottomWidth: 1,
-								borderTopLeftRadius: 20,
-								borderTopRightRadius: 20,
-								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
-							}}
-						>
-							<Text
-								h5
+								<Text
+									color='white'
+								>
+									Status: {task.status.name}
+								</Text>
+								<Text
+									color='white'
+								>
+									Priority: {task.priority.name}
+								</Text>
+							</Block>
+							<Block
 								style={{
-									paddingBottom: 5,
-									color: 'white'
+									paddingTop: 12,
+									paddingBottom: 12,
+									paddingLeft: 20,
+									paddingRight: 20
 								}}
 							>
-								Bug #123456
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Status: New
-							</Text>
-							<Text
-								color='white'
-							>
-								Priority: Low
-							</Text>
-						</Block>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Updated: 12/12/2019
-							</Text>
-							<Text
-								color='blue'
-							>
-								More details >>
-							</Text>
-						</Block>
-					</Block>
-					<Block
-						borderWidth={1}
-						style={{
-							backgroundColor: '#6c757c',
-							borderColor: 'rgba(0, 0, 0, 0.125)',
-							borderRadius: 20,
-							marginBottom: 15
-						}}
-					>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20,
-								backgroundColor: '#677178',
-								borderBottomWidth: 1,
-								borderTopLeftRadius: 20,
-								borderTopRightRadius: 20,
-								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
-							}}
-						>
-							<Text
-								h5
+								<Text
+									color='white'
+								>
+									{task.subject}
+								</Text>
+							</Block>
+							<Block
+								row
+								space='between'
 								style={{
-									paddingBottom: 5,
-									color: 'white'
+									paddingTop: 12,
+									paddingBottom: 12,
+									paddingLeft: 20,
+									paddingRight: 20
 								}}
 							>
-								Bug #123456
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Status: New
-							</Text>
-							<Text
-								color='white'
-							>
-								Priority: Low
-							</Text>
-						</Block>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Updated: 12/12/2019
-							</Text>
-							<Text
-								color='blue'
-							>
-								More details >>
-							</Text>
-						</Block>
+								<Text
+									color='white'
+								>
+									Updated: {new Date(task.updated_on).toDateString()}
+								</Text>
+								<Text
+									color='blue'
+								>
+									More details >>
+								</Text>
+							</Block>
 					</Block>
-					<Block
-						borderWidth={1}
-						style={{
-							backgroundColor: '#6c757c',
-							borderColor: 'rgba(0, 0, 0, 0.125)',
-							borderRadius: 20,
-							marginBottom: 15
-						}}
-					>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20,
-								backgroundColor: '#677178',
-								borderBottomWidth: 1,
-								borderTopLeftRadius: 20,
-								borderTopRightRadius: 20,
-								borderBottomColor: 'rgba(0, 0, 0, 0.125)'
-							}}
-						>
-							<Text
-								h5
-								style={{
-									paddingBottom: 5,
-									color: 'white'
-								}}
-							>
-								Bug #123456
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Status: New
-							</Text>
-							<Text
-								color='white'
-							>
-								Priority: Low
-							</Text>
-						</Block>
-						<Block
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Pellentesque finibus fringilla nibh ac sollicitudin.
-							</Text>
-						</Block>
-						<Block
-							row
-							space='between'
-							style={{
-								paddingTop: 12,
-								paddingBottom: 12,
-								paddingLeft: 20,
-								paddingRight: 20
-							}}
-						>
-							<Text
-								color='white'
-							>
-								Updated: 12/12/2019
-							</Text>
-							<Text
-								color='blue'
-							>
-								More details >>
-							</Text>
-						</Block>
-					</Block>
-				</Block>
+					))}
+			</Block>
 			</ScrollView>
 			</React.Fragment>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    tasks: _.get(state, ['main', 'tasks_list', 'issues'])
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  {
+  }
+)(Main);

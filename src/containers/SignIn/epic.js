@@ -2,32 +2,33 @@ import { Observable } from 'rxjs';
 import { combineEpics } from 'redux-observable';
 import { serialize, handleError } from './../../api_helper';
 import * as SignInTypes from './constants';
+
 import {
   receiveSignIn,
   cancelSignIn,
   signInCheckJWT,
   logOut
 } from './actions';
+import {
+  getListOfTasks
+} from '../Main/actions';
 import { addNotification } from '../NotificationGenerator/actions';
 import axiosInstance from '../../axios';
 
-function signInEpic(action$) {
-  return action$.ofType(SignInTypes.SIGN_IN)
+function signInEpic($action, $state) {
+  return $action.ofType(SignInTypes.SIGN_IN)
     .map((action) => action.payload)
-    .switchMap(({
-      rememberMe, username, password
-    }) => (
-      Observable.fromPromise(axiosInstance.post(`/login`, {
-        params: {
-          rememberMe,
-          username,
-          password
+    .switchMap(() => {
+      const { signIn: { user_cred } } = $state.getState();
+      return Observable.fromPromise(axiosInstance.get(`/issues.json?assigned_to_id=me`, {
+        headers: {
+          'Authorization': 'Basic ' + btoa(user_cred.username + ':' + user_cred.password)
         }
       }))
         .catch(handleError)
-    ))
+    })
     .map((result) => (
-      result && result.data ? receiveSignIn(result.data, remember) : cancelSignIn(result)
+      result && result.data ? getListOfTasks(result.data) : cancelSignIn(result)
     ));
 }
 

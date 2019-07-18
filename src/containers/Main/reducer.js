@@ -1,18 +1,16 @@
 import * as actionTypes from './constants';
 
-const initialState = {
-    verifyingJWT: true
-  };
+const initialState = {};
   
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case actionTypes.USER_LOGOUT: {
       return {};
     }
-    case actionTypes.SIGN_IN:
+    case actionTypes.GET_LIST_OF_TASKS:
     return {
       ...state,
-      user_cred: action.payload.data
+      tasks_list: action.payload.data
     };
     default:
       return state;

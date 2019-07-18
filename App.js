@@ -24,6 +24,7 @@ const store = createStore(reducers, initialState, compose(applyMiddleware(...mid
 
 const MainNavigator = createStackNavigator({
   Home: {screen: SignIn},
+  Main: {screen: Main},
   SignIn: { screen: SignIn},
   ForgotPass: {screen: ForgotPass},
   TaskDetails: {screen: TaskDetails},

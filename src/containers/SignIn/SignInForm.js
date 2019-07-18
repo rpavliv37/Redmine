@@ -61,13 +61,17 @@ export class SignInForm extends React.Component {
 						Lost password?
 					</Text>
 				</Block>
-				<TouchableOpacity
+				<Button
+          radius={27}
+          shadowColor
+          color='success'
+          style={{
+            marginTop: 12
+					}}
 					onPress={handleSubmit}
-				>
-					<Text>
-						Login
-					</Text>
-				</TouchableOpacity>
+        >
+          Login
+        </Button>
 			</Block>
 		);
 	}
