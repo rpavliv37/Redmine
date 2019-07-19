@@ -16,10 +16,7 @@ class SignIn extends React.Component {
 	}
 	onSubmit = (values) => {
 		const { signIn: signInProps, navigation } = this.props;
-    signInProps({
-      ...values
-		});
-		navigation.navigate("Main");
+    signInProps(values, navigation.navigate);
   }
 	render() {
 		const { navigate } = this.props.navigation;

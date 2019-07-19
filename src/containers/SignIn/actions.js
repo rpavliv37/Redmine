@@ -1,18 +1,17 @@
 import * as actionTypes from './constants';
 
-export const signIn = (data) => ({
+export const signIn = (data, navigate) => ({
   type: actionTypes.SIGN_IN,
   payload: {
-    data
+    data,
+    navigate
   }
 });
 
-export const receiveSignIn = (user, jwt, remember) => ({
+export const receiveSignIn = (data) => ({
   type: actionTypes.SIGN_IN_RECEIVED,
   payload: {
-    user,
-    jwt,
-    remember
+    data
   }
 });
 

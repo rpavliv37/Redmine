@@ -14,6 +14,11 @@ export default (state = initialState, action = {}) => {
       ...state,
       user_cred: action.payload.data
     };
+    case actionTypes.SIGN_IN_RECEIVED:
+    return {
+      ...state,
+      data: action.payload.data
+    };
     default:
       return state;
   }

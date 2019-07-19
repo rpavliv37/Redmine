@@ -7,10 +7,15 @@ export default (state = initialState, action = {}) => {
     case actionTypes.USER_LOGOUT: {
       return {};
     }
-    case actionTypes.GET_LIST_OF_TASKS:
+    case actionTypes.SAVE_LIST_OF_TASKS:
     return {
       ...state,
       tasks_list: action.payload.data
+    };
+    case actionTypes.SAVE_TODAY_SPENT_TIME:
+    return {
+      ...state,
+      spent_time: action.payload.data.time_entries
     };
     default:
       return state;

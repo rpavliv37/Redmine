@@ -4,26 +4,41 @@ import _ from 'lodash';
 import shortid from 'shortid';
 import {Picker, TouchableOpacity, ScrollView } from 'react-native';
 import Expand from 'react-native-simple-expand';
-import getStatusesFromList from './utils/getStatusesfromList';
+import { calcSpentTime, getStatusesFromList, getProjectsFromList } from './utils';
 import { Input, Button, Card, Block, Text, Icon, Navbar } from 'galio-framework';
+import Loader from '../../components/Loader';
+import { getListOfTasks, getTodaySpentTime } from './actions';
 import '@expo/vector-icons';
 
 class Main extends React.Component {
 	static navigationOptions = {
     title: 'Main',
-  };
+	};
+
   constructor(props) {
     super(props);
 		this.state = {
+			project: undefined,
+			status: undefined
     }
 	}
-	
-	setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
+
+	componentDidMount() {
+		this.props.getListOfTasks();
+		this.props.getTodaySpentTime();
+	}
+
+	handleOnChangePicker = (itemValue) => {
+		// this.setState({project: itemValue})
+		this.props.getListOfTasks(itemValue)
+	}
+
 	render() {
-		const { tasks, navigation } = this.props;
-		const statuses = tasks && getStatusesFromList(tasks);
+		const { tasks, navigation, spent_time, getListOfTasks } = this.props;
+		const statuses = (tasks && getStatusesFromList(tasks)) || [];
+		const projects = (tasks && getProjectsFromList(tasks)) || [];
+		console.log('statuses', statuses);
+		console.log('this.state', this.state);
     return (
 			<React.Fragment>
 					<Block
@@ -42,7 +57,7 @@ class Main extends React.Component {
 							h4
 							color='white'
 						>
-							Today spent time: 8h
+							Today spent time: { spent_time && calcSpentTime(spent_time)}h
 						</Text>
 					</Block>
 					<ScrollView>
@@ -62,7 +77,6 @@ class Main extends React.Component {
 					<TouchableOpacity
 						onPress={() => {
 							this.setState({ open: !this.state.open })
-							getStatusesFromList(tasks);
 						}}
 					>
 						<Block
@@ -83,24 +97,25 @@ class Main extends React.Component {
 					</TouchableOpacity>
 						<Expand value={this.state.open}>
 							<Picker
-								selectedValue={this.state.language}
+								selectedValue={this.state.project}
 								style={{height: 50, width: 'auto'}}
 								onValueChange={(itemValue, itemIndex) =>
 									this.setState({language: itemValue})}
 							>
 								<Picker.Item label="All" value="all" />
-								{/* {statuses && statuses.map((status) => {
-									<Picker.Item label={status} value={status} />
-								})} */}
+								{statuses && statuses.map((status) => 
+									<Picker.Item label={status} value={status} key={shortid.generate()}/>
+								)}
 							</Picker>
 							<Picker
-							selectedValue={this.state.language}
-							style={{height: 50, width: 'auto'}}
-							onValueChange={(itemValue, itemIndex) =>
-								this.setState({language: itemValue})}
-						>
-							<Picker.Item label="Project" value="java" />
-							<Picker.Item label="JavaScript" value="js" />
+								// selectedValue={this.state.project}
+								style={{height: 50, width: 'auto'}}
+								onValueChange={this.handleOnChangePicker}
+							>
+								<Picker.Item label="All" value={undefined} />
+								{projects && projects.map((project) => 
+									<Picker.Item label={project.name} value={project.id} key={shortid.generate()}/>
+								)}
 						</Picker>
 						</Expand>
 					</Block>
@@ -124,7 +139,7 @@ class Main extends React.Component {
 							Add new Issue
 						</Button>
 					</Block>
-					{tasks && tasks.map((task) => (
+					{tasks ? tasks.map((task) => (
 					<Block
 						borderWidth={1}
 						style={{
@@ -215,7 +230,9 @@ class Main extends React.Component {
 								</Text>
 							</Block>
 					</Block>
-					))}
+					)) : (
+						<Loader />
+					)}
 			</Block>
 			</ScrollView>
 			</React.Fragment>
@@ -225,12 +242,15 @@ class Main extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    tasks: _.get(state, ['main', 'tasks_list', 'issues'])
+		tasks: _.get(state, ['main', 'tasks_list', 'issues']),
+		spent_time: _.get(state, ['main', 'spent_time'])
   };
 }
 
 export default connect(
   mapStateToProps,
   {
+		getListOfTasks,
+		getTodaySpentTime
   }
 )(Main);

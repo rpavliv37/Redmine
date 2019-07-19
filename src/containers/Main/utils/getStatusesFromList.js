@@ -5,7 +5,6 @@ const getStatusesFromList = (data) => {
   for(let i = 0; i < data.length; i++) {
     uniqStatuses.push(data[i].status.name);
   }
-  console.log('aa', _.uniq(uniqStatuses));
   return _.uniq(uniqStatuses);
 }
 

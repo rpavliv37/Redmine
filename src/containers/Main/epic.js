@@ -1,35 +1,54 @@
 import { Observable } from 'rxjs';
 import _ from 'lodash';
+import moment from 'moment';
 import { combineEpics } from 'redux-observable';
-import { handleErrorDetailed } from '../../api_helper';
-import strapi from '../../strapi';
+import { handleError } from '../../api_helper';
 import * as MainTypes from './constants';
 import {
-  receiveUserInfo, cancelUserInfo, changePrioritySuccess, cancelChangePriority, devicesSaveTypesAndNames, getListOfIP, saveIP
+  saveListOfTasks, saveTodaySpentTime
 } from './actions';
 import { addNotification } from '../NotificationGenerator/actions';
+import axiosInstance from '../../axios';
 
 function getListOfTasksEpic($action, $state) {
-  return action$.ofType(MainTypes.SIGN_IN)
+  return $action.ofType(MainTypes.GET_LIST_OF_TASKS)
     .map((action) => action.payload)
-    .switchMap(({
-      rememberMe, username, password
-    }) => {
-      const { modals: { searchIP: { opened } } } = $state.getState();
-      return Observable.fromPromise(axiosInstance.post(`/login`, {
-        params: {
-          rememberMe,
-          username,
-          password
+    .switchMap(({...project_id}) => {
+      const { signIn: { user_cred } } = $state.getState();
+      const objResponse = {
+        headers: {
+          'Authorization': 'Basic ' + btoa(user_cred.username + ':' + user_cred.password)
+        }
+      };
+      if(project_id.project_id !== undefined) {
+        objResponse.params = project_id
+      }
+      return Observable.fromPromise(axiosInstance.get(`/issues.json?assigned_to_id=me`, objResponse))
+        .catch(handleError)
+    })
+    .map((result) => (
+      result && result.data ? saveListOfTasks(result.data) : console.log('result', result)
+    ));
+}
+
+function getTodaySpentTimeEpic($action, $state) {
+  return $action.ofType(MainTypes.GET_TODAY_SPENT_TIME)
+    .map((action) => action.payload)
+    .switchMap(() => {
+      const { signIn: { user_cred } } = $state.getState(); 
+      return Observable.fromPromise(axiosInstance.get(`time_entries.json?user_id=me&spent_on=t&limit=1000`, {
+        headers: {
+          'Authorization': 'Basic ' + btoa(user_cred.username + ':' + user_cred.password)
         }
       }))
         .catch(handleError)
     })
     .map((result) => (
-      result && result.data ? receiveSignIn(result.data, remember) : cancelSignIn(result)
+      result && result.data ? saveTodaySpentTime(result.data) : console.log('result', result)
     ));
 }
 
 export default combineEpics(
-  getUserInfoEpic, changePriorityEpic, changePrioritySuccessEpic, devicesGetTNEpic, scanIPEpic, getListOfIPEpic
+  getListOfTasksEpic,
+  getTodaySpentTimeEpic
 );
