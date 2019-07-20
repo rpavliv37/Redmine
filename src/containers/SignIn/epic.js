@@ -10,6 +10,8 @@ import {
 } from './actions';
 import { addNotification } from '../NotificationGenerator/actions';
 import axiosInstance from '../../axios';
+import {decode as atob, encode as btoa} from 'base-64'
+
 
 function signInEpic($action, $state) {
   return $action.ofType(SignInTypes.SIGN_IN)

@@ -37,7 +37,8 @@ export class SignInForm extends React.Component {
 						rounded: true,
 						icon: 'lock',
 						family: 'Entypo',
-						password: true
+						password: true,
+						viewPass: true
 					}}
 					name="password"
 					component={renderField}

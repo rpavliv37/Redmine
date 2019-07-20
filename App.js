@@ -23,7 +23,7 @@ const middlewares = [
 const store = createStore(reducers, initialState, compose(applyMiddleware(...middlewares)));
 
 const MainNavigator = createStackNavigator({
-  Home: {screen: SignIn},
+  Home: {screen: CreateNewTask},
   Main: {screen: Main},
   SignIn: { screen: SignIn},
   ForgotPass: {screen: ForgotPass},

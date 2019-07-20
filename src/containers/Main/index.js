@@ -4,10 +4,9 @@ import _ from 'lodash';
 import shortid from 'shortid';
 import {Picker, TouchableOpacity, ScrollView } from 'react-native';
 import Expand from 'react-native-simple-expand';
-import { calcSpentTime, getStatusesFromList, getProjectsFromList } from './utils';
+import { calcSpentTime, getStatusesFromList, getProjectsFromList, filterTasks } from './utils';
 import { Input, Button, Card, Block, Text, Icon, Navbar } from 'galio-framework';
-import Loader from '../../components/Loader';
-import { getListOfTasks, getTodaySpentTime } from './actions';
+import { getTodaySpentTime, getAllListOfTasks } from './actions';
 import '@expo/vector-icons';
 
 class Main extends React.Component {
@@ -24,21 +23,21 @@ class Main extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.getListOfTasks();
+		this.props.getAllListOfTasks();
 		this.props.getTodaySpentTime();
 	}
 
-	handleOnChangePicker = (itemValue) => {
-		// this.setState({project: itemValue})
-		this.props.getListOfTasks(itemValue)
+	handleOnChangeProjectPicker = (itemValue) => {
+		this.setState({project: itemValue})
+	}
+	handleOnChangeStatusPicker = (itemValue) => {
+		this.setState({status: itemValue})
 	}
 
 	render() {
-		const { tasks, navigation, spent_time, getListOfTasks } = this.props;
-		const statuses = (tasks && getStatusesFromList(tasks)) || [];
-		const projects = (tasks && getProjectsFromList(tasks)) || [];
-		console.log('statuses', statuses);
-		console.log('this.state', this.state);
+		const { all_tasks, navigation, spent_time } = this.props;
+		const statuses = (all_tasks && getStatusesFromList(all_tasks)) || [];
+		const projects = (all_tasks && getProjectsFromList(all_tasks)) || [];
     return (
 			<React.Fragment>
 					<Block
@@ -99,24 +98,23 @@ class Main extends React.Component {
 							<Picker
 								selectedValue={this.state.project}
 								style={{height: 50, width: 'auto'}}
-								onValueChange={(itemValue, itemIndex) =>
-									this.setState({language: itemValue})}
-							>
-								<Picker.Item label="All" value="all" />
-								{statuses && statuses.map((status) => 
-									<Picker.Item label={status} value={status} key={shortid.generate()}/>
-								)}
-							</Picker>
-							<Picker
-								// selectedValue={this.state.project}
-								style={{height: 50, width: 'auto'}}
-								onValueChange={this.handleOnChangePicker}
+								onValueChange={this.handleOnChangeProjectPicker}
 							>
 								<Picker.Item label="All" value={undefined} />
 								{projects && projects.map((project) => 
-									<Picker.Item label={project.name} value={project.id} key={shortid.generate()}/>
+									<Picker.Item label={project.name} value={project.name} key={shortid.generate()}/>
 								)}
 						</Picker>
+						<Picker
+								selectedValue={this.state.status}
+								style={{height: 50, width: 'auto'}}
+								onValueChange={this.handleOnChangeStatusPicker}
+							>
+								<Picker.Item label="All" value={undefined} />
+								{statuses && statuses.map((status) => 
+									<Picker.Item label={status.name} value={status.name} key={shortid.generate()}/>
+								)}
+							</Picker>
 						</Expand>
 					</Block>
 					<Block
@@ -139,7 +137,7 @@ class Main extends React.Component {
 							Add new Issue
 						</Button>
 					</Block>
-					{tasks ? tasks.map((task) => (
+					{all_tasks ? filterTasks(all_tasks, this.state.project, this.state.status).map((task) => (
 					<Block
 						borderWidth={1}
 						style={{
@@ -231,7 +229,7 @@ class Main extends React.Component {
 							</Block>
 					</Block>
 					)) : (
-						<Loader />
+						null
 					)}
 			</Block>
 			</ScrollView>
@@ -242,7 +240,7 @@ class Main extends React.Component {
 
 function mapStateToProps(state) {
   return {
-		tasks: _.get(state, ['main', 'tasks_list', 'issues']),
+		all_tasks: _.get(state, ['main', 'all_tasks_list', 'issues']),
 		spent_time: _.get(state, ['main', 'spent_time'])
   };
 }
@@ -250,7 +248,7 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
-		getListOfTasks,
+		getAllListOfTasks,
 		getTodaySpentTime
   }
 )(Main);
