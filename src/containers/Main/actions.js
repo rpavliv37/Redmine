@@ -23,3 +23,11 @@ export const saveTodaySpentTime = (data) => ({
     data
   }
 });
+
+
+export const getSelectedTask = (data) => ({
+  type: actionTypes.GET_SELECTED_TASK,
+  payload: {
+    data
+  }
+});

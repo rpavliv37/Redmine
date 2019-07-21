@@ -4,7 +4,6 @@ import { Input } from 'galio-framework';
 
 const renderField = (props) => {
 	const { input: { onChange }, input } = props;
-	console.log('input', input);
 	return (
 		<View>
 			<Input

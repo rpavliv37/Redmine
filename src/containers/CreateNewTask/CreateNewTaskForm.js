@@ -6,88 +6,9 @@ import { Field, reduxForm } from 'redux-form';
 import { renderDropdown } from '../../components/Dropdown';
 import { renderField } from '../../components/FormField';
 import { renderDatePicker } from '../../components/Datepicker';
+import { trackerList, statussesList, priorityList, severityList } from './dropdownOptions';
 import shortid from 'shortid';
 import '@expo/vector-icons';
-import { from } from 'rxjs/observable/from';
-
-const trackerList = [
-  {
-    name: 'Feature',
-    id: 2
-  },
-  {
-    name: 'Bug',
-    id: 1
-  },
-  {
-    name: 'Support',
-    id: 3
-  },
-  {
-    name: 'Task',
-    id: 4
-  },
-  {
-    name: 'User story',
-    id: 16
-  },
-  {
-    name: 'Build',
-    id: 14
-  },
-  {
-    name: 'Release',
-    id: 12
-  }
-];
-
-const statussesList = [
- {
-   name: 'New',
-   id: 1
- },
- {
-  name: 'In Progress',
-  id: 2
-},
-{
-  name: 'Resolved',
-  id: 3
-},
-{
-  name: 'Feedback',
-  id: 4
-},
-{
-  name: 'Rejected',
-  id: 6
-},
-{
-  name: 'Cancelled',
-  id: 8
-}
-];
-
-const priorityList = [
-  {
-    name: 'Low',
-    id: 1
-  },
-  {
-   name: 'Normal',
-   id: 2
- },
- {
-   name: 'High',
-   id: 3
- },
- {
-   name: 'Urgent',
-   id: 4
- }
- ];
-
-const severityList = ['Moderate', 'Minor', 'Major', 'Critical'];
 
 class CreateNewTaskForm extends React.Component {
   constructor(props) {
@@ -100,12 +21,9 @@ class CreateNewTaskForm extends React.Component {
     this.setState({ chosenDate: newDate });
   }
 
-  handleOnChange = (itemValue) => {
-
-  }
-
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, projects, getMembers, projectMembers} = this.props;
+    const _projectMembers = projectMembers || [];
     return (
         <Block
           style={{
@@ -117,7 +35,7 @@ class CreateNewTaskForm extends React.Component {
           }}
         >
           <Field
-            name='tracker'
+            name='tracker_id'
             component={renderDropdown}
           >
             <Picker.Item label='Tracker *' value='' />
@@ -151,7 +69,7 @@ class CreateNewTaskForm extends React.Component {
             component={renderField}
 				  />
           <Field
-            name='status'
+            name='status_id'
             component={renderDropdown}
           >
             <Picker.Item label='Status *' value='' />
@@ -160,7 +78,7 @@ class CreateNewTaskForm extends React.Component {
             ))}
           </Field>
           <Field
-            name='priority'
+            name='priority_id'
             component={renderDropdown}
           >
             <Picker.Item label='Priority *' value='' />
@@ -168,27 +86,27 @@ class CreateNewTaskForm extends React.Component {
               <Picker.Item label={item.name} value={item.id} key={shortid.generate()} />
             ))}
           </Field>
-          {/* !!! */}
           <Field
-            name='project'
+            name='project_id'
             component={renderDropdown}
+            props={{
+              getMembers: getMembers
+            }}
           >
             <Picker.Item label='Project *' value='' />
-            {priorityList.map((item) => (
+            {projects && projects.map((item) => (
               <Picker.Item label={item.name} value={item.id} key={shortid.generate()} />
             ))}
           </Field>
-          {/* !!! */}
           <Field
-            name='assignee'
+            name='assigned_to_id'
             component={renderDropdown}
           >
             <Picker.Item label='Assignee' value='' />
-            {priorityList.map((item) => (
-              <Picker.Item label={item.name} value={item.id} key={shortid.generate()} />
+            {_projectMembers.map((item) => (
+              <Picker.Item label={item.user ? item.user.name : item.group.name} value={item.user ? item.user.id : item.group.id} key={shortid.generate()} />
             ))}
           </Field>
-          {/* !!! */}
           <Field
             name='severity'
             component={renderDropdown}
@@ -256,57 +174,75 @@ class CreateNewTaskForm extends React.Component {
               family: 'Foundation',
               type: 'decimal-pad'
             }}
-            name="steps"
+            name="estimated_hours"
             component={renderField}
 				  />
           {/* !!! */}
-          <Field
+          {/* <Field
             name='watchers'
-            component={renderDropdown}
-          >
-            <Picker.Item label='Watchers' value='' />
-            {priorityList.map((item) => (
-              <Picker.Item label={item.name} value={item.id} key={shortid.generate()} />
-            ))}
-          </Field>
-          {/* !!! */}
-          {/*
-          <Picker
-            selectedValue={this.state.language}
-            style={{ height: 50, width: 'auto' }}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ language: itemValue })}
-          >
-            <Picker.Item label="Files" value="java" />
-            <Picker.Item label="Project" value="js" />
-          </Picker>
-          <Picker
-            selectedValue={this.state.language}
-            style={{ height: 50, width: 'auto' }}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ language: itemValue })}
-          >
-            <Picker.Item label="% Done" value="java" />
-            <Picker.Item label="Project" value="js" />
-          </Picker>
-          <Input
-            placeholder='Expected result'
-            rounded
-            icon='results'
-            family='Foundation'
-          />
-          <Input
-            placeholder='Environment'
-            rounded
-            icon='results'
-            family='Foundation'
-          />
-          <Input
-            placeholder='Actual result'
-            rounded
-            icon='results'
-            family='Foundation'
+            component={renderMultiplySelect}
           /> */}
+          {/* !!! */}
+          <Field
+            props={{
+              placeholder: 'Steps to reproduce',
+              rounded: true,
+              icon: 'foot',
+              family: 'Foundation',
+              style: {
+                height: 100
+              },
+              multiline: true,
+              numberOfLines: 4
+            }}
+            name="steps"
+            component={renderField}
+				  />
+          <Field
+            props={{
+              placeholder: 'Expected result',
+              rounded: true,
+              icon: 'results',
+              family: 'Foundation',
+              style: {
+                height: 100
+              },
+              multiline: true,
+              numberOfLines: 4
+            }}
+            name="expectedResult"
+            component={renderField}
+				  />
+          <Field
+            props={{
+              placeholder: 'Environment',
+              rounded: true,
+              icon: 'results',
+              family: 'Foundation',
+              style: {
+                height: 100
+              },
+              multiline: true,
+              numberOfLines: 4
+            }}
+            name="expectedResult"
+            component={renderField}
+				  />
+          <Field
+            props={{
+              placeholder: 'Actual result',
+              rounded: true,
+              icon: 'results',
+              family: 'Foundation',
+              style: {
+                height: 100
+              },
+              multiline: true,
+              numberOfLines: 4
+            }}
+            name="actualResult"
+            component={renderField}
+				  />
           <Block
             row
             space='between'

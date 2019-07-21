@@ -6,7 +6,7 @@ import {Picker, TouchableOpacity, ScrollView } from 'react-native';
 import Expand from 'react-native-simple-expand';
 import { calcSpentTime, getStatusesFromList, getProjectsFromList, filterTasks } from './utils';
 import { Input, Button, Card, Block, Text, Icon, Navbar } from 'galio-framework';
-import { getTodaySpentTime, getAllListOfTasks } from './actions';
+import { getTodaySpentTime, getAllListOfTasks, getSelectedTask } from './actions';
 import '@expo/vector-icons';
 
 class Main extends React.Component {
@@ -35,7 +35,7 @@ class Main extends React.Component {
 	}
 
 	render() {
-		const { all_tasks, navigation, spent_time } = this.props;
+		const { all_tasks, navigation, spent_time, getSelectedTask } = this.props;
 		const statuses = (all_tasks && getStatusesFromList(all_tasks)) || [];
 		const projects = (all_tasks && getProjectsFromList(all_tasks)) || [];
     return (
@@ -138,6 +138,14 @@ class Main extends React.Component {
 						</Button>
 					</Block>
 					{all_tasks ? filterTasks(all_tasks, this.state.project, this.state.status).map((task) => (
+					<TouchableOpacity
+						onPress={() => {
+							getSelectedTask(task);
+							navigation.navigate('TaskDetails');
+						}}
+						activeOpacity={.7}
+						nextFocusForward
+					>
 					<Block
 						borderWidth={1}
 						style={{
@@ -149,6 +157,8 @@ class Main extends React.Component {
 						key={shortid.generate()}
 					>
 							<Block
+								row
+								space='between'
 								style={{
 									paddingTop: 12,
 									paddingBottom: 12,
@@ -169,6 +179,15 @@ class Main extends React.Component {
 									}}
 								>
 									{`${task.tracker.name} #${task.id}`} 
+								</Text>
+								<Text
+									h5
+									style={{
+										paddingBottom: 5,
+										color: 'white'
+									}}
+								>
+									{task.project.name} 
 								</Text>
 							</Block>
 							<Block
@@ -221,13 +240,9 @@ class Main extends React.Component {
 								>
 									Updated: {new Date(task.updated_on).toDateString()}
 								</Text>
-								<Text
-									color='blue'
-								>
-									More details >>
-								</Text>
 							</Block>
 					</Block>
+					</TouchableOpacity>
 					)) : (
 						null
 					)}
@@ -249,6 +264,7 @@ export default connect(
   mapStateToProps,
   {
 		getAllListOfTasks,
-		getTodaySpentTime
+		getTodaySpentTime,
+		getSelectedTask
   }
 )(Main);

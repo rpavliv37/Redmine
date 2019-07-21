@@ -17,6 +17,11 @@ export default (state = initialState, action = {}) => {
       ...state,
       spent_time: action.payload.data.time_entries
     };
+    case actionTypes.GET_SELECTED_TASK:
+    return {
+      ...state,
+      selected_task: action.payload.data
+    };
     default:
       return state;
   }

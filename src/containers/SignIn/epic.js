@@ -69,8 +69,6 @@ function cancelSignInEpic(action$) {
 
 function logoutEpic(action$) {
   return action$.ofType(SignInTypes.USER_LOGOUT).switchMap(() => Observable.of(
-    strapi.clearToken(),
-    push('/login'),
     addNotification({
       type: 'success',
       text: i18n.t('youAreOut')
