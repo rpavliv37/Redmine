@@ -15,7 +15,7 @@
     "expo": "^33.0.0",
     "galio-framework": "^0.5.3",
     "lodash": "^4.17.14",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
